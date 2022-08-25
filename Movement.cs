@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
         _targetPosition = _targetPoint.position;
     }
     
+
     void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
