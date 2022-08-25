@@ -51,14 +51,12 @@ public class AlarmSystem : MonoBehaviour
         else if (isLowVolume)
         {
             _coroutineMoveVolumeInWork = StartCoroutine(MoveVolume(_minVolume));
-            while (_audioSource.volume > _minVolume) {}
-            _audioSource.Stop();
         }
     }
 
     private IEnumerator MoveVolume(float targetVolume)
     {
-        while (_audioSource.volume < _maxVolume)
+        while (_audioSource.volume != targetVolume)
         {
             _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetVolume, (_maxVolume / _timeTurnOn) * Time.deltaTime);
             yield return null;
