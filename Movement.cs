@@ -12,14 +12,14 @@ public class Movement : MonoBehaviour
     private Vector3 _startPosition;
     private Vector3 _targetPosition;
 
-    void Start()
+    private void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _startPosition = transform.position;
         _targetPosition = _targetPoint.position;
     }
-    
-    void Update()
+
+    private void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
 

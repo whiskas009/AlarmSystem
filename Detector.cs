@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class ChangeAlarmVolume : MonoBehaviour
+public class Detector : MonoBehaviour
 {
     [SerializeField] private float _speedChangeVolume;
 
@@ -44,6 +44,6 @@ public class ChangeAlarmVolume : MonoBehaviour
         }
 
         if (_audioSource.volume == _minVolume)
-            _audioSource.mute = true;
+            _audioSource.Stop();
     }
 }

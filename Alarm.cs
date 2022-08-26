@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ControlEnterExitHome : MonoBehaviour
+public class Alarm : MonoBehaviour
 {
     [SerializeField] private UnityEvent _activatedAlarm;
     [SerializeField] private UnityEvent _deactivatedAlarm;
