@@ -1,26 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
+[RequireComponent(typeof(AudioSource))]
 public class Alarm : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _activatedAlarm;
-    [SerializeField] private UnityEvent _deactivatedAlarm;
+    [SerializeField] private float _speedChangeVolume;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private AudioSource _audioSource;
+    private float _minVolume = 0;
+    private float _maxVolume = 1;
+    private Coroutine _coroutineMoveVolumeInWork;
+
+    private void Start()
     {
-        if (collision.TryGetComponent<Thief>(out Thief thief))
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    public void Change(bool isUpVolume = true)
+    {
+        if (_coroutineMoveVolumeInWork != null)
         {
-            _activatedAlarm?.Invoke();
+            StopCoroutine(_coroutineMoveVolumeInWork);
+        }
+
+        if (isUpVolume)
+        {
+            _audioSource.Play();
+            _coroutineMoveVolumeInWork = StartCoroutine(MoveValue(_maxVolume));
+        }
+        else
+        {
+            _coroutineMoveVolumeInWork = StartCoroutine(MoveValue(_minVolume));
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private IEnumerator MoveValue(float targetVolume)
     {
-        if (collision.TryGetComponent<Thief>(out Thief thief))
+        while (_audioSource.volume != targetVolume)
         {
-            _deactivatedAlarm?.Invoke();
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetVolume, _speedChangeVolume * Time.deltaTime);
+            yield return null;
         }
+
+        if (_audioSource.volume == _minVolume)
+            _audioSource.Stop();
     }
 }
